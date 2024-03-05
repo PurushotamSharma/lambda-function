@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies and bundle
         run: |
-          cd Dev
+          cd ./Dev
           npm install
           zip -qq -r bundle.zip .
         working-directory: ./Dev/
