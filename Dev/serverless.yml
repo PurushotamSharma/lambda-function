@@ -11,6 +11,30 @@ functions:
       - http:
           path: /random
           method: get
+          authorizer: # Adding Cognito user pool authorizer
+            name: MyCognitoAuthorizer
+            type: COGNITO_USER_POOLS
+            identitySource: method.request.header.Authorization
+            arn: 
+              Fn::ImportValue: !Sub "${Env}-cognito-authorizer-arn" # Import the ARN of your Cognito user pool authorizer
+
+resources:
+  Resources:
+    MyUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: MyUserPool
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireUppercase: true
+            RequireLowercase: true
+            RequireNumbers: true
+            RequireSymbols: true
 
 plugins:
   - serverless-offline
