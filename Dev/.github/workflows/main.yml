@@ -33,7 +33,7 @@ jobs:
         run: |
           # Commands to create the Lambda function
           # Example:
-          # aws lambda create-function --function-name threedee-dev --runtime nodejs14.x --role arn:aws:iam::123456789012:role/lambda-role --handler index.handler --code S3Bucket=mybucket,S3Key=mycode.zip
+          aws lambda create-function --function-name threedee-dev --runtime nodejs14.x --role arn:aws:iam::123456789012:role/lambda-role --handler index.handler --code S3Bucket=mybucket,S3Key=mycode.zip
           echo "Creating Lambda function threedee-dev..."
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
