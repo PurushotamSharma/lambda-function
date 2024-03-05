@@ -16,7 +16,9 @@ functions:
             type: COGNITO_USER_POOLS
             identitySource: method.request.header.Authorization
             arn: 
-              Fn::ImportValue: !Sub "${Env}-cognito-authorizer-arn" # Import the ARN of your Cognito user pool authorizer
+              Fn::GetAtt:
+                - MyUserPool
+                - Arn
 
 resources:
   Resources:
