@@ -1,10 +1,10 @@
-service: serverless-deMO
+service: serverless-demo
 
 provider:
   name: aws
   runtime: nodejs18.x
   stage: dev
-  region: us-east-01
+  region: us-east-1
 
 functions:
   hello:

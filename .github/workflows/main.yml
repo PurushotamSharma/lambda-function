@@ -6,7 +6,7 @@ on:
     branches:
       - development
     paths:
-      - 'Dev/**'  # Path to the Dev directory in the root of the repository
+      - "Dev/**"
 jobs:
   deploy_source:
     name: AWS Lambda Deploy
@@ -15,52 +15,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check if Lambda function exists
-        id: check_function
-        run: |
-          if aws lambda get-function --function-name threedee-dev >/dev/null 2>&1; then
-            echo "::set-output name=exists::true"
-          else
-            echo "::set-output name=exists::false"
-          fi
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
-      - name: Create Lambda function if it doesn't exist
-        if: steps.check_function.outputs.exists == 'false'
-        run: |
-          # Commands to create the Lambda function
-          # Example:
-          # aws lambda create-function --function-name threedee-dev --runtime nodejs14.x --role arn:aws:iam::123456789012:role/lambda-role --handler index.handler --code S3Bucket=mybucket,S3Key=mycode.zip
-          echo "Creating Lambda function threedee-dev..."
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      - name: Install Serverless Framework
+        run: npm install -g serverless
 
       - name: Install Node.js and npm
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
-      - name: Install dependencies and bundle
+      - name: Install dependencies
+        run: npm install --prefix Dev
+
+      - name: Deploy Lambda function using Serverless Framework
         run: |
-          npm install --prefix Dev  # Update the path to Dev directory
-          cd Dev  # Update the path to Dev directory
-          zip -qq -r bundle.zip .
-        # No working-directory provided, it will operate in the root directory by default
-
-      - name: List contents of Dev directory
-        run: ls -al
-        working-directory: Dev
-
-      - name: Deploy Lambda function using Appleboy Lambda Action
-        uses: appleboy/lambda-action@v0.1.9
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          function_name: threedee-dev
-          zip_file: Dev/bundle.zip  # Update the path to bundle.zip since we're in the Dev directory
+          cd Dev
+          serverless deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
