@@ -22,10 +22,10 @@ jobs:
 
       - name: Install dependencies and bundle
         run: |
-          cd Dev
+          cd ./Dev
           npm install
           zip -qq -r bundle.zip .
-        working-directory: Dev
+        working-directory: ./Dev
 
       - name: Check if Lambda function exists
         id: check_function
@@ -48,7 +48,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: threedee-dev
-          zip_file: Dev/bundle.zip
+          zip_file: ./Dev/bundle.zip
           
       - name: Update existing Lambda function
         if: github.ref == 'refs/heads/development' && steps.check_function.outputs.exists == 'true'
