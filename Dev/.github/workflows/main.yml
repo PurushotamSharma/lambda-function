@@ -6,7 +6,7 @@ on:
     branches:
       - development
     paths:
-      - 'Dev/**'
+      - "Dev/**"
 jobs:
   deploy_source:
     name: AWS Lambda Deploy
@@ -33,7 +33,12 @@ jobs:
         run: |
           # Commands to create the Lambda function
           # Example:
-          aws lambda create-function --function-name threedee-dev --runtime nodejs14.x --role arn:aws:iam::123456789012:role/lambda-role --handler index.handler --code S3Bucket=mybucket,S3Key=mycode.zip
+          aws lambda create-function 
+          -- function-name:  threedee-dev 
+          -- runtime: nodejs14.x 
+          -- role: arn:aws:iam::123456789012:role/lambda-role 
+          -- handler: index.handler 
+
           echo "Creating Lambda function threedee-dev..."
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -43,7 +48,7 @@ jobs:
       - name: Install Node.js and npm
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
       - name: Install dependencies and bundle
         run: |
