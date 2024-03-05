@@ -6,7 +6,7 @@ on:
     branches:
       - development
     paths:
-      - 'Dev/**'
+      - 'Dev/**'  # Path to the Dev directory in the root of the repository
 jobs:
   deploy_source:
     name: AWS Lambda Deploy
@@ -47,10 +47,10 @@ jobs:
 
       - name: Install dependencies and bundle
         run: |
-          cd ./Dev
-          npm install
+          npm install --prefix Dev  # Update the path to Dev directory
+          cd Dev  # Update the path to Dev directory
           zip -qq -r bundle.zip .
-        working-directory: ./Dev
+        # No working-directory provided, it will operate in the root directory by default
 
       - name: Deploy Lambda function using Appleboy Lambda Action
         uses: appleboy/lambda-action@v0.1.9
@@ -59,4 +59,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: threedee-dev
-          zip_file: ./Dev/bundle.zip
+          zip_file: bundle.zip  # Update the path to bundle.zip since we're in the Dev directory
