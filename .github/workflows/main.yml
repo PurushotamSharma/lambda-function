@@ -1,31 +1,62 @@
 name: Deploy register-advertiser Lambda Development
 # Controls when the workflow will run
 on:
-    workflow_dispatch:
-    push:
-      branches:
-        - development
-      paths:
-        - 'Dev/**'
+  workflow_dispatch:
+  push:
+    branches:
+      - development
+    paths:
+      - 'Dev/**'
 jobs:
   deploy_source:
     name: AWS Lambda Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Build the application
-        run: cd ./Dev && npm i
-      - name: Install zip
-        uses: montudor/action-zip@v1
-      - name: Zip output
-        run: zip -qq -r ./bundle.zip ./
-        working-directory: ./Dev
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies and bundle
+        run: |
+          cd Dev
+          npm install
+          zip -qq -r bundle.zip .
+        working-directory: Dev
+
+      - name: Check if Lambda function exists
+        id: check_function
+        run: |
+          if aws lambda get-function --function-name threedee-dev >/dev/null 2>&1; then
+            echo "::set-output name=exists::true"
+          else
+            echo "::set-output name=exists::false"
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
       - name: AWS Lambda Deploy
-        if: github.ref == 'refs/heads/development'
+        if: github.ref == 'refs/heads/development' && steps.check_function.outputs.exists == 'false'
         uses: appleboy/lambda-action@v0.1.9
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: threedee-dev
-          zip_file: ./Dev/bundle.zip
+          zip_file: Dev/bundle.zip
+          
+      - name: Update existing Lambda function
+        if: github.ref == 'refs/heads/development' && steps.check_function.outputs.exists == 'true'
+        run: |
+          aws lambda update-function-code \
+            --function-name threedee-dev \
+            --zip-file fileb://Dev/bundle.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
