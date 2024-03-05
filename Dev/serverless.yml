@@ -1,29 +1,16 @@
-service: serverless-demo
+service: my-service
 
 provider:
   name: aws
-  runtime: nodejs18.x
-  stage: dev
-  region: us-east-1
+  runtime: nodejs14.x
 
 functions:
-  hello:
+  generateRandomNumber:
     handler: src/handler.generateRandomNumber
-    timeout: 60 # seconds
-    memorySize: 128 # mb
+    events:
+      - http:
+          path: /random
+          method: get
 
-resources:
-  Resources:
-    usersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: usersTable
-        AttributeDefinitions:
-          - AttributeName: email
-            AttributeType: S
-        KeySchema:
-          - AttributeName: email
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+plugins:
+  - serverless-offline
