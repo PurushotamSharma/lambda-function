@@ -3,7 +3,7 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ${env:AWS_REGION}
+  region: us-east-1
 
 functions:
   generateRandomNumber:
