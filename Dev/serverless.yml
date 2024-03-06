@@ -3,7 +3,7 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ${env:AWS_REGION} 
+  region: ${env:AWS_REGION}
 
 functions:
   generateRandomNumber:
@@ -33,22 +33,21 @@ functions:
 
 resources:
   Resources:
-   MyDataTable:
-     Type: AWS::DynamoDB::Table
-    Properties:
-     TableName: Users
-     AttributeDefinitions:
-      - AttributeName: username
-        AttributeType: S
-      - AttributeName: password
-        AttributeType: S
-     KeySchema:
-      - AttributeName: username
-        KeyType: HASH
-     ProvisionedThroughput:
-      ReadCapacityUnits: 5
-      WriteCapacityUnits: 5
-
+    MyDataTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Users
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+          - AttributeName: password
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
@@ -72,4 +71,3 @@ resources:
         ClientName: MyUserPoolClient
         UserPoolId:
           Ref: MyUserPool
-       
