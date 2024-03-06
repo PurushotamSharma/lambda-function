@@ -36,12 +36,12 @@ resources:
     ItemsTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: "InvoiceConfig"
+        TableName: "Users-Table"
         AttributeDefinitions:
-          - AttributeName: "providerName"
+          - AttributeName: "email"
             AttributeType: "S"
         KeySchema:
-          - AttributeName: "providerName"
+          - AttributeName: "email"
             KeyType: "HASH"
         ProvisionedThroughput:
           ReadCapacityUnits: 2
