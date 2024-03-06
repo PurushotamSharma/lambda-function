@@ -3,15 +3,22 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
+  region: us-east-1
 
 functions:
   generateRandomNumber:
     handler: src/handler.generateRandomNumber
+    environment: 
+      USER_POOL_ID:
+        Ref: MyUserPool
+      CLIENT_ID:
+        Ref: MyUserPoolClient
+      # Other hardcoded environment variables
     events:
       - http:
           path: /random
           method: get
-          authorizer: # Adding Cognito user pool authorizer
+          authorizer: 
             name: MyCognitoAuthorizer
             type: COGNITO_USER_POOLS
             identitySource: method.request.header.Authorization
