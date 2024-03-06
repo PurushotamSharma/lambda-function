@@ -9,6 +9,10 @@ functions:
   generateRandomNumber:
     handler: src/handler.generateRandomNumber
     environment: 
+      ACCESS_KEY_ID: ${env:ACCESS_KEY_ID}
+      SECRET_ACCESS_KEY: ${env:SECRET_ACCESS_KEY}
+      BUCKET_NAME: ${env:BUCKET_NAME}
+      REGION: ${env:REGION}
       USER_POOL_ID:
         Ref: MyUserPool
       CLIENT_ID:
