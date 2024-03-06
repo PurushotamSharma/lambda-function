@@ -3,7 +3,7 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-east-1
+  region: ${env:AWS_REGION} # Use environment variable for region
 
 functions:
   generateRandomNumber:
@@ -13,12 +13,11 @@ functions:
       SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
       BUCKET_NAME: ${env:AWS_BUCKET_NAME}
       REGION: ${env:AWS_REGION}
-    
-       USER_POOL_ID:
+      USER_POOL_ID:
         Ref: MyUserPool
-       CLIENT_ID:
+      CLIENT_ID:
          Ref: MyUserPoolClient
-      
+
     events:
       - http:
           path: /random
