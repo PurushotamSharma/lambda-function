@@ -38,5 +38,10 @@ resources:
             RequireNumbers: true
             RequireSymbols: true
 
-plugins:
-  - serverless-offline
+    MyUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: MyUserPoolClient
+        UserPoolId:
+          Ref: MyUserPool
+        # Add other properties as needed
