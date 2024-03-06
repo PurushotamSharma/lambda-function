@@ -30,10 +30,18 @@ jobs:
         run: npm install --prefix Dev
 
       - name: Deploy Lambda function using Serverless Framework
+        env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         REGION: ${{ secrets.AWS_REGION }}
+         BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+         USER_POOL_ID:
+         Ref: MyUserPool
+         CLIENT_ID:Ref: MyUserPoolClient
         run: |
           cd Dev
-          serverless deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          sls deploy --access-key-id $ACCESS_KEY_ID --secret-access-key $SECRET_ACCESS_KEY --bucket-name $BUCKET_NAME --client-id $CLIENT_ID --region $REGION --user-pool-id $USER_POOL_ID
+        # env:
+        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        #   AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
