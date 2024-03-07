@@ -47,7 +47,7 @@ resources:
           # Add other attribute definitions as needed
         KeySchema:
           - AttributeName: "id"
-            KeyType: "N"
+            KeyType: "HASH"
           - AttributeName: "Author"
             KeyType: "HASH"
           - AttributeName: "Description"
