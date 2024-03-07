@@ -33,10 +33,10 @@ functions:
 
 resources:
   Resources:
-    ItemsTable:
+    MyTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: "New-Users-Table"
+        TableName: "Test-New-Users-Table"
         AttributeDefinitions:
           - AttributeName: "id"
             AttributeType: "S"  # Assuming "id" is a number
