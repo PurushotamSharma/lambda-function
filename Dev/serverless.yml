@@ -33,30 +33,53 @@ functions:
 
 resources:
   Resources:
-    MyTable:
-      Type: "AWS::DynamoDB::Table"
+     ItemsTable:
+      Type: AWS::DynamoDB::Table
       Properties:
-        TableName: "MyTable-1-0"
+        TableName: Items
         AttributeDefinitions:
-          - AttributeName: "id"
-            AttributeType: "N"  # Assuming "id" is a number
-          - AttributeName: "Author"
-            AttributeType: "S"
-          - AttributeName: "Group"
-            AttributeType: "S"
-          # Add other attribute definitions as needed
+          - AttributeName: id
+            AttributeType: N  # Assuming "id" is a number
+          - AttributeName: author
+            AttributeType: S  # Assuming "author" is a string
+          - AttributeName: description
+            AttributeType: S  # Assuming "description" is a string
+          - AttributeName: is_Active
+            AttributeType: N  # Assuming "is_Active" is a number
+          - AttributeName: is_Deleted
+            AttributeType: N  # Assuming "is_Deleted" is a number
+          - AttributeName: link_to_file
+            AttributeType: S  # Assuming "link_to_file" is a string
+          - AttributeName: link_to_Image
+            AttributeType: S  # Assuming "link_to_Image" is a string
+          - AttributeName: matching_Description
+            AttributeType: S  # Assuming "matching_Description" is a string
+          - AttributeName: name
+            AttributeType: S  # Assuming "name" is a string
+          - AttributeName: public
+            AttributeType: S  # Assuming "public" is a string
+          - AttributeName: type
+            AttributeType: S  # Assuming "type" is a string
+          - AttributeName: version
+            AttributeType: S  # Assuming "version" is a string
+          # Add other attributes as needed
         KeySchema:
-          - AttributeName: "id"
-            KeyType: "HASH"
-          - AttributeName: "Author"
-            KeyType: "RANGE"
-          - AttributeName: "Group"
-            KeyType: "RANGE"
-            
+          - AttributeName: id
+            KeyType: HASH
+          # Add other key attributes as needed
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        
+        GlobalSecondaryIndexes:
+          - IndexName: NameIndex
+            KeySchema:
+              - AttributeName: name
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL  # Adjust projection type as needed
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
