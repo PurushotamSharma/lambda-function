@@ -36,7 +36,7 @@ resources:
     ItemsTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: "Users-Table"
+        TableName: "New-Users-Table"
         AttributeDefinitions:
           - AttributeName: "id"
             AttributeType: "N"  # Assuming "id" is a number
