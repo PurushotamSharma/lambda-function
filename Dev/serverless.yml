@@ -33,7 +33,7 @@ functions:
 
 resources:
   Resources:
-     ItemsTable:
+    ItemsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: Items
