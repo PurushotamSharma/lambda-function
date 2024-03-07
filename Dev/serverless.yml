@@ -39,7 +39,7 @@ resources:
         TableName: "New-Users-Table"
         AttributeDefinitions:
           - AttributeName: "id"
-            AttributeType: "N"  # Assuming "id" is a number
+            AttributeType: "S"  # Assuming "id" is a number
           - AttributeName: "Author"
             AttributeType: "S"
           - AttributeName: "Description"
@@ -49,8 +49,10 @@ resources:
           - AttributeName: "id"
             KeyType: "HASH"
         ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        StreamSpecification:
+          StreamViewType: 'NEW_AND_OLD_IMAGES'
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
