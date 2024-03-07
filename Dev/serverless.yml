@@ -33,16 +33,14 @@ functions:
 
 resources:
   Resources:
-    ItemsTable:
+    MyTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: "Users-Table"
+        TableName: "MyTable-1"
         AttributeDefinitions:
           - AttributeName: "id"
             AttributeType: "S"  # Assuming "id" is a number
           - AttributeName: "Author"
-            AttributeType: "S"
-          - AttributeName: "Description"
             AttributeType: "S"
           # Add other attribute definitions as needed
         KeySchema:
