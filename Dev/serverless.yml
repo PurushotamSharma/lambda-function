@@ -81,6 +81,7 @@ resources:
               ReadCapacityUnits: 5
               WriteCapacityUnits: 5
 
+
     MyUserPool:
       Type: AWS::Cognito::UserPool
       Properties:
