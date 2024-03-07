@@ -42,11 +42,15 @@ resources:
             AttributeType: "N"  # Assuming "id" is a number
           - AttributeName: "Author"
             AttributeType: "S"
+          - AttributeName: "Group"
+            AttributeType: "S"
           # Add other attribute definitions as needed
         KeySchema:
           - AttributeName: "id"
             KeyType: "HASH"
           - AttributeName: "Author"
+            KeyType: "RANGE"
+          - AttributeName: "Group"
             KeyType: "RANGE"
             
         ProvisionedThroughput:
