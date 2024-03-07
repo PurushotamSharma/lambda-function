@@ -49,9 +49,7 @@ resources:
           - AttributeName: "id"
             KeyType: "HASH"
           - AttributeName: "Author"
-            KeyType: "HASH"
-          - AttributeName: "Description"
-            KeyType: "HASH"
+            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
