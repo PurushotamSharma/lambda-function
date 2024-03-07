@@ -40,17 +40,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: "id"
             AttributeType: "N"  # Assuming "id" is a number
-          - AttributeName: "Author"
-            AttributeType: "S"
-          - AttributeName: "Description"
-            AttributeType: "S"
           # Add other attribute definitions as needed
         KeySchema:
-          - AttributeName: "Author"
+          - AttributeName: "id"
             KeyType: "HASH"
         ProvisionedThroughput:
-          ReadCapacityUnits: 2
-          WriteCapacityUnits: 2
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
