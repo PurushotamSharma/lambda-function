@@ -34,23 +34,23 @@ functions:
 resources:
   Resources:
     ItemsTable:
-    Type: "AWS::DynamoDB::Table"
-    Properties:
-      TableName: "Users-Table"
-      AttributeDefinitions:
-        - AttributeName: "id"
-          AttributeType: "N"  # Assuming "id" is a number
-        - AttributeName: "Author"
-          AttributeType: "S"
-        - AttributeName: "Description"
-          AttributeType: "S"
-        # Add other attribute definitions as needed
-      KeySchema:
-        - AttributeName: "id"
-          KeyType: "HASH"
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: "Users-Table"
+        AttributeDefinitions:
+          - AttributeName: "id"
+            AttributeType: "N"  # Assuming "id" is a number
+          - AttributeName: "Author"
+            AttributeType: "S"
+          - AttributeName: "Description"
+            AttributeType: "S"
+          # Add other attribute definitions as needed
+        KeySchema:
+          - AttributeName: "id"
+            KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
