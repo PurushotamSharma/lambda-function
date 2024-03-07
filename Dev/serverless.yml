@@ -39,9 +39,11 @@ resources:
         TableName: "MyTable-1"
         AttributeDefinitions:
           - AttributeName: "id"
-            AttributeType: "S"  # Assuming "id" is a number
+            AttributeType: "N"  # Assuming "id" is a number
           - AttributeName: "Author"
             AttributeType: "S"
+          - AttributeName: "Age"
+            AttributeType: "N"
           # Add other attribute definitions as needed
         KeySchema:
           - AttributeName: "id"
