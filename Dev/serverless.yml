@@ -33,26 +33,26 @@ functions:
 
 resources:
   Resources:
-    MyTable:
+    ItemsTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: "Test-New-Users-Table"
+        TableName: "Users-Table"
         AttributeDefinitions:
           - AttributeName: "id"
             AttributeType: "S"  # Assuming "id" is a number
           - AttributeName: "Author"
             AttributeType: "S"
-          - AttributeName: "Description"
-            AttributeType: "S"
           # Add other attribute definitions as needed
         KeySchema:
           - AttributeName: "id"
             KeyType: "HASH"
+          - AttributeName: "Author"
+            KeyType: "RANGE"
+            
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        StreamSpecification:
-          StreamViewType: 'NEW_AND_OLD_IMAGES'
+        
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
