@@ -46,10 +46,8 @@ resources:
             AttributeType: "S"
           # Add other attribute definitions as needed
         KeySchema:
-          - AttributeName: "id"
-            KeyType: "HASH"
           - AttributeName: "Author"
-            KeyType: "RANGE"
+            KeyType: "HASH"
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
