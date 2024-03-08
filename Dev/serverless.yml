@@ -77,7 +77,21 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: demo-bucket-serverless-08-03-2024
-        AccessControl: Private # You can set access control as required
+        AccessControl: Private 
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+              MaxAge: 3000
+              AllowedOriginAwsAccount:
+                - !Sub "${AWS::AccountId}"
         # BucketPolicy:
         #   Version: '2012-10-17'
         #   Statement:
