@@ -41,9 +41,11 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: N # Assuming "id" is a number
+
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          # Add other key attributes as needed
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
@@ -76,18 +78,15 @@ resources:
       Properties:
         BucketName: demo-bucket-serverless-08-03-2024
         AccessControl: Private 
-        CorsConfiguration:
-         CorsRules:
-          - AllowedOrigins:
-            - "*"
-          AllowedHeaders:
-            - "*"
-          AllowedMethods:
-            - GET
-            - PUT
-            - POST
-            - DELETE
-          MaxAge: 3000
-          ExposedHeaders:
-            - "ETag"
-            - "x-amz-meta-custom-header"
+        
+        # BucketPolicy:
+        #   Version: '2012-10-17'
+        #   Statement:
+        #     - Effect: Allow
+        #       Principal: '*'
+        #       Action:
+        #         - s3:GetObject
+        #       Resource: arn:aws:s3:::demo-bucket-serverless-08-03-2024/*
+        #       Condition:
+        #         StringEquals:
+        #           aws:sourceAccount: !Ref 'AWS::AccountId'
