@@ -36,51 +36,65 @@ resources:
     ItemsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Items
+        TableName: My-Table-01
         AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: N  # Assuming "id" is a number
-          - AttributeName: author
-            AttributeType: S  # Assuming "author" is a string
-          - AttributeName: description
-            AttributeType: S  # Assuming "description" is a string
-          - AttributeName: is_Active
-            AttributeType: N  # Assuming "is_Active" is a number
-          - AttributeName: is_Deleted
-            AttributeType: N  # Assuming "is_Deleted" is a number
-          - AttributeName: link_to_file
-            AttributeType: S  # Assuming "link_to_file" is a string
-          - AttributeName: link_to_Image
-            AttributeType: S  # Assuming "link_to_Image" is a string
-          - AttributeName: matching_Description
-            AttributeType: S  # Assuming "matching_Description" is a string
-          - AttributeName: name
-            AttributeType: S  # Assuming "name" is a string
-          - AttributeName: public
-            AttributeType: S  # Assuming "public" is a string
-          - AttributeName: type
-            AttributeType: S  # Assuming "type" is a string
-          - AttributeName: version
-            AttributeType: S  # Assuming "version" is a string
-          # Add other attributes as needed
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+          - AttributeName: gs1_process
+            AttributeType: S
+          - AttributeName: gsi_date_month
+            AttributeType: S
+          - AttributeName: gsi_date_day
+            AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: pk
             KeyType: HASH
-          # Add other key attributes as needed
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          - AttributeName: sk
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableClass: STANDARD
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: false
         GlobalSecondaryIndexes:
-          - IndexName: NameIndex
+          - IndexName: ${env:GS1_INDEX}
             KeySchema:
-              - AttributeName: name
-                KeyType: HASH
+              -
+                AttributeName: "gs1_process"
+                KeyType: "HASH"
+              -
+                AttributeName: "pk"
+                KeyType: "RANGE"
             Projection:
-              ProjectionType: ALL  # Adjust projection type as needed
-            ProvisionedThroughput:
-              ReadCapacityUnits: 5
-              WriteCapacityUnits: 5
-
+              ProjectionType: ALL
+          - IndexName: ${env:GS2_DAY_INDEX}
+            KeySchema:
+              -
+                AttributeName: "gsi_date_day"
+                KeyType: "HASH"
+              -
+                AttributeName: "pk"
+                KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ${env:GSI_MONTH_INDEX}
+            KeySchema:
+              -
+                AttributeName: "gsi_date_month"
+                KeyType: "HASH"
+              -
+                AttributeName: "pk"
+                KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+        KinesisStreamSpecification:
+          StreamArn: !GetAtt KinesisDataStreams.Arn
+        Tags:
+          - Key: 'product'
+            Value: 'soumil'
+          - Key: 'customerImpact'
+            Value: 'false'
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
