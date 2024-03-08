@@ -78,14 +78,14 @@ resources:
       Properties:
         BucketName: demo-bucket-serverless-08-03-2024
         AccessControl: Private # You can set access control as required
-        BucketPolicy:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal: '*'
-              Action:
-                - s3:GetObject
-              Resource: arn:aws:s3:::demo-bucket-serverless-08-03-2024/*
-              Condition:
-                StringEquals:
-                  aws:sourceAccount: !Ref 'AWS::AccountId'
+        # BucketPolicy:
+        #   Version: '2012-10-17'
+        #   Statement:
+        #     - Effect: Allow
+        #       Principal: '*'
+        #       Action:
+        #         - s3:GetObject
+        #       Resource: arn:aws:s3:::demo-bucket-serverless-08-03-2024/*
+        #       Condition:
+        #         StringEquals:
+        #           aws:sourceAccount: !Ref 'AWS::AccountId'
