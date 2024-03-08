@@ -11,7 +11,8 @@ functions:
     environment:
       ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
       SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-      BUCKET_NAME: ${env:AWS_BUCKET_NAME}
+      BUCKET_NAME: 
+        Ref: MyS3Bucket
       REGION: ${env:AWS_REGION}
       USER_POOL_ID:
         Ref: MyUserPool
@@ -71,3 +72,20 @@ resources:
         ClientName: MyUserPoolClient
         UserPoolId:
           Ref: MyUserPool
+
+    MyS3Bucket: # New Resource for S3 Bucket
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: demo-bucket-serverless-08-03-2024
+        AccessControl: Private # You can set access control as required
+        BucketPolicy:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal: '*'
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::demo-bucket-serverless-08-03-2024/*
+              Condition:
+                StringEquals:
+                  aws:sourceAccount: !Ref 'AWS::AccountId'
