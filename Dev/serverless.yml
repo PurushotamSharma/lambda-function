@@ -16,7 +16,7 @@ functions:
       USER_POOL_ID:
         Ref: MyUserPool
       CLIENT_ID:
-         Ref: MyUserPoolClient
+        Ref: MyUserPoolClient
 
     events:
       - http:
@@ -36,65 +36,18 @@ resources:
     ItemsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: My-Table-01
+        TableName: My-Table
         AttributeDefinitions:
-          - AttributeName: pk
-            AttributeType: S
-          - AttributeName: sk
-            AttributeType: S
-          - AttributeName: gs1_process
-            AttributeType: S
-          - AttributeName: gsi_date_month
-            AttributeType: S
-          - AttributeName: gsi_date_day
-            AttributeType: S
+          - AttributeName: id
+            AttributeType: N # Assuming "id" is a number
+
         KeySchema:
-          - AttributeName: pk
+          - AttributeName: id
             KeyType: HASH
-          - AttributeName: sk
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-        TableClass: STANDARD
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: false
-        GlobalSecondaryIndexes:
-          - IndexName: ${env:GS1_INDEX}
-            KeySchema:
-              -
-                AttributeName: "gs1_process"
-                KeyType: "HASH"
-              -
-                AttributeName: "pk"
-                KeyType: "RANGE"
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${env:GS2_DAY_INDEX}
-            KeySchema:
-              -
-                AttributeName: "gsi_date_day"
-                KeyType: "HASH"
-              -
-                AttributeName: "pk"
-                KeyType: "RANGE"
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${env:GSI_MONTH_INDEX}
-            KeySchema:
-              -
-                AttributeName: "gsi_date_month"
-                KeyType: "HASH"
-              -
-                AttributeName: "pk"
-                KeyType: "RANGE"
-            Projection:
-              ProjectionType: ALL
-        KinesisStreamSpecification:
-          StreamArn: !GetAtt KinesisDataStreams.Arn
-        Tags:
-          - Key: 'product'
-            Value: 'soumil'
-          - Key: 'customerImpact'
-            Value: 'false'
+          # Add other key attributes as needed
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
 
     MyUserPool:
       Type: AWS::Cognito::UserPool
