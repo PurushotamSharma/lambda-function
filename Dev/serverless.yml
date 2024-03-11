@@ -3,6 +3,7 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
+  region: ${env:AWS_DEFAULT_REGION}
  
 
 functions:
