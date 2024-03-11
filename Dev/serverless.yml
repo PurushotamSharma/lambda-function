@@ -12,7 +12,7 @@ functions:
     environment:
       ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
       SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-      REGION: ${env:AWS_REGION}
+      REGION: ${env:AWS_DEFAULT_REGION}
       USER_POOL_ID:
         Ref: MyUserPool
       CLIENT_ID:
