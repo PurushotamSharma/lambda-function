@@ -3,16 +3,17 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ${env:AWS_DEFAULT_REGION}
+  region: ${env:AWS_REGION}
  
 
 functions:
   MyFunction:
+    name: MyFunction-Lambda
     handler: src/handler.generateRandomNumber
     environment:
       ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
       SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-      REGION: ${env:AWS_DEFAULT_REGION}
+      REGION: ${env:AWS_REGION}
       USER_POOL_ID:
         Ref: MyUserPool
       CLIENT_ID:
