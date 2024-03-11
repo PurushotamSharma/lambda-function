@@ -3,10 +3,10 @@ service: my-service
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-east-1
+ 
 
 functions:
-  generateRandomNumber:
+  MyFunction:
     handler: src/handler.generateRandomNumber
     environment:
       ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
